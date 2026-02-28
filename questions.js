@@ -33,7 +33,8 @@ export const TOPICS = [
   "❏ Name mangling using __",
   "❏ Composition vs. inheritance. (This is not python specific, but we discussed it in the context of python.)",
   "❏ Pythonic idioms.",
-  "❏ Magic commands."
+  "❏ Magic commands.",
+  "❏ Metaclasses: type, __new__, __init__, custom class creation flow."
 ];
 
 export const QUESTIONS = [
@@ -2148,5 +2149,101 @@ export const QUESTIONS = [
     ],
     "a": "B",
     "e": "Double-percent magics operate on a whole cell."
+  },
+  {
+    "t": 35,
+    "q": "Which statement is MOST accurate about metaclasses in Python?",
+    "o": [
+      "A metaclass creates instances of normal classes",
+      "A metaclass creates classes, similarly to how a class creates instances",
+      "Metaclasses only work with abstract base classes",
+      "Metaclasses are only available in Python 2"
+    ],
+    "a": "B",
+    "e": "`type` is the default metaclass; it constructs class objects."
+  },
+  {
+    "t": 35,
+    "q": "What prints?\n\nclass A:\n    pass\nprint(type(A) is type)\n",
+    "o": [
+      "True",
+      "False",
+      "TypeError",
+      "Depends on interpreter"
+    ],
+    "a": "A",
+    "e": "By default, user-defined classes are instances of `type`."
+  },
+  {
+    "t": 35,
+    "q": "In a custom metaclass, which hook receives `(mcls, name, bases, namespace)` and typically returns the new class object?",
+    "o": [
+      "`__call__`",
+      "`__iter__`",
+      "`__new__`",
+      "`__getattribute__`"
+    ],
+    "a": "C",
+    "e": "Metaclass `__new__` is responsible for class creation."
+  },
+  {
+    "t": 35,
+    "q": "What prints?\n\nclass Meta(type):\n    def __new__(mcls, name, bases, ns):\n        ns['flag'] = 42\n        return super().__new__(mcls, name, bases, ns)\n\nclass C(metaclass=Meta):\n    pass\n\nprint(C.flag)\n",
+    "o": [
+      "AttributeError",
+      "42",
+      "None",
+      "0"
+    ],
+    "a": "B",
+    "e": "The metaclass injects `flag` into the class namespace before class construction."
+  },
+  {
+    "t": 35,
+    "q": "What is the best explanation for using metaclasses in production code?",
+    "o": [
+      "For rare framework-level class customization (validation, registration, API contracts)",
+      "To replace all decorators",
+      "To speed up every function call",
+      "To avoid inheritance completely"
+    ],
+    "a": "A",
+    "e": "Metaclasses are powerful but advanced; typical usage is framework-level class construction control."
+  },
+  {
+    "t": 35,
+    "q": "What prints?\n\nclass M(type):\n    pass\n\nclass A(metaclass=M):\n    pass\n\na = A()\nprint(type(A) is M, type(a) is A)\n",
+    "o": [
+      "True True",
+      "True False",
+      "False True",
+      "False False"
+    ],
+    "a": "A",
+    "e": "`A` is an instance of metaclass `M`; instance `a` is an instance of class `A`."
+  },
+  {
+    "t": 35,
+    "q": "When both `__init_subclass__` and a custom metaclass are possible, which is generally simpler for basic subclass validation?",
+    "o": [
+      "`__init_subclass__` is usually simpler",
+      "Metaclass is always required",
+      "Only decorators can validate subclasses",
+      "Neither can access subclass attributes"
+    ],
+    "a": "A",
+    "e": "For many subclass checks, `__init_subclass__` is easier and less invasive than a full metaclass."
+  },
+  {
+    "t": 35,
+    "q": "What happens when inheriting from two bases with incompatible metaclasses?",
+    "o": [
+      "Python silently picks one metaclass at random",
+      "Python raises a metaclass conflict `TypeError`",
+      "It works only if both bases are abstract",
+      "It always falls back to `type`"
+    ],
+    "a": "B",
+    "e": "Python requires a compatible metaclass resolution; otherwise class creation fails with `TypeError`."
   }
 ];
