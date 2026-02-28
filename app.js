@@ -5,6 +5,7 @@ const $ = (id) => document.getElementById(id);
 const countInput = $("countInput");
 const shuffleInput = $("shuffleInput");
 const startBtn = $("startBtn");
+const startAllBtn = $("startAllBtn");
 const quizPanel = $("quizPanel");
 const summaryPanel = $("summaryPanel");
 const progressEl = $("progress");
@@ -161,6 +162,10 @@ function startQuiz() {
 }
 
 startBtn.addEventListener("click", startQuiz);
+startAllBtn.addEventListener("click", () => {
+  countInput.value = QUESTIONS.length;
+  startQuiz();
+});
 submitBtn.addEventListener("click", submitAnswer);
 nextBtn.addEventListener("click", nextQuestion);
 restartBtn.addEventListener("click", startQuiz);
